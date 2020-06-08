@@ -51,9 +51,10 @@ spec:
                   sh '''
 cat <<EOF > Dockerfile
 ARG myimg
-FROM $${myimg}
+FROM \${myimg}
 EOF
                   '''
+                  sh 'cat Dockerfile'
                   sh "docker build --build-arg myimg=${baseimg} ."
                 }
             }
