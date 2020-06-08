@@ -1,5 +1,5 @@
 // Uses Declarative syntax to run commands inside a container.
-def call(){
+def call(String baseimg){
 pipeline {
     agent {
         kubernetes {
@@ -50,10 +50,11 @@ spec:
                   sh 'hostname'
                   sh '''
 cat <<EOF > Dockerfile
-FROM ubuntu:latest
+ARG myimg
+FROM ${myimg}
 EOF
                   '''
-                  sh 'docker build .'
+                  sh "docker build --build-arg myimg=${baseimg} ."
                 }
             }
         }
